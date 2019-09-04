@@ -16,15 +16,13 @@ interface IContentWrap {
 
 export const ContentWrap = styled.div`
   position: relative;
-  padding: 50px;
   background-color: ${COLORS.liteWhite};
   border-radius: 20px;
-  transform: scale(0.6);
   ${({ withMobileScale }: IContentWrap) =>
     withMobileScale &&
     css`
-      @media ${DEVICE.tablet} {
-        transform: scale(1);
+      @media ${DEVICE.mobileL} {
+        transform: scale(0.6);
       }
     `}
 `;

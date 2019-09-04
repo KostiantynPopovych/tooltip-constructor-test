@@ -32,12 +32,12 @@ export const SIZES = {
 };
 
 export const DEVICE = {
-  mobileS: `(min-width: ${SIZES.mobileS})`,
-  mobileM: `(min-width: ${SIZES.mobileM})`,
-  mobileL: `(min-width: ${SIZES.mobileL})`,
-  tablet: `(min-width: ${SIZES.tablet})`,
-  laptop: `(min-width: ${SIZES.laptop})`,
-  laptopL: `(min-width: ${SIZES.laptopL})`,
-  desktop: `(min-width: ${SIZES.desktop})`,
-  desktopL: `(min-width: ${SIZES.desktop})`
+  mobileS: `(max-width: ${SIZES.mobileS})`,
+  mobileM: `(max-width: ${SIZES.mobileM})`,
+  mobileL: `(max-width: ${SIZES.mobileL})`,
+  tablet: `(max-width: ${SIZES.tablet})`,
+  laptop: `(max-width: ${SIZES.laptop})`,
+  laptopL: `(max-width: ${SIZES.laptopL})`,
+  desktop: `(max-width: ${SIZES.desktop})`,
+  desktopL: `(max-width: ${SIZES.desktop})`
 };

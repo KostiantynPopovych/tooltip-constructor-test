@@ -34,14 +34,15 @@ const GridPage: FC<IProps> = ({
 }) => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [currentImg, setCurrentImg] = useState<IImage>();
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [currentImg, setCurrentImg] = useState<IImage | null>(null);
   const [errorFileFormat, setErrorFileFormat] = useState(false);
 
   useEffect(() => {
     requestGetImages();
   }, []);
 
-  const handleImgUpload = ({ target: { files } }: any) => {
+  const handleImgUpload = ({ target: { files } }: any, fromCreate = false) => {
     const file = files[0];
     const isCorrect = file.type.split("/")[0] === "image";
     if (!isCorrect) return setErrorFileFormat(true);
@@ -62,16 +63,18 @@ const GridPage: FC<IProps> = ({
         altText: file.name,
         source: String(fileReader.result)
       });
+      if (fromCreate) {
+        setShowEditModal(true);
+      }
     };
   };
 
-  const resetValues = () => {
-    setErrorFileFormat(false);
-    setCurrentImg(undefined);
+  const resetImg = () => {
+    setCurrentImg(null);
   };
 
   const handleCreateClick = () => {
-    setShowEditModal(true);
+    setShowUploadModal(true);
   };
 
   const handleDetailsClick = (img: IImage) => {
@@ -85,13 +88,19 @@ const GridPage: FC<IProps> = ({
     setShowEditModal(true);
   };
 
+  const handleUploadModalClose = () => {
+    setShowUploadModal(false);
+    setErrorFileFormat(false);
+  };
+
   const handleEditModalClose = () => {
-    resetValues();
+    resetImg();
     setShowEditModal(false);
+    setShowUploadModal(false);
   };
 
   const handleViewModalClose = () => {
-    resetValues();
+    resetImg();
     setShowViewModal(false);
   };
 
@@ -121,37 +130,35 @@ const GridPage: FC<IProps> = ({
             ))}
         </ImagesWrap>
       </Content>
-      {showEditModal && (
+      {showUploadModal && (
         <Modal>
-          <>
-            {!currentImg && (
-              <UploadWrap>
-                <WithMargin>
-                  <FileInput
-                    onChange={handleImgUpload}
-                    fileTypes={"image/*"}
-                    label={"Upload your image"}
-                  />
-                </WithMargin>
-                {errorFileFormat && (
-                  <WithMargin>
-                    <ErrorText>Wrong file type...</ErrorText>
-                  </WithMargin>
-                )}
-                <WithMargin>
-                  <Button onClick={handleEditModalClose} label={"Close"} />
-                </WithMargin>
-              </UploadWrap>
-            )}
-            {currentImg && (
-              <TooltipConstructor
-                img={currentImg}
-                onChangeImage={handleImgUpload}
-                onSaveClick={handleSaveClick}
-                onCloseClick={handleEditModalClose}
+          <UploadWrap>
+            <WithMargin>
+              <FileInput
+                onChange={e => handleImgUpload(e, true)}
+                fileTypes={"image/*"}
+                label={"Upload your image"}
               />
+            </WithMargin>
+            {errorFileFormat && (
+              <WithMargin>
+                <ErrorText>Wrong file type...</ErrorText>
+              </WithMargin>
             )}
-          </>
+            <WithMargin>
+              <Button onClick={handleUploadModalClose} label={"Close"} />
+            </WithMargin>
+          </UploadWrap>
+        </Modal>
+      )}
+      {showEditModal && currentImg && (
+        <Modal withMobileScale>
+          <TooltipConstructor
+            img={currentImg}
+            onChangeImage={handleImgUpload}
+            onSaveClick={handleSaveClick}
+            onCloseClick={handleEditModalClose}
+          />
         </Modal>
       )}
       {showViewModal && currentImg && (

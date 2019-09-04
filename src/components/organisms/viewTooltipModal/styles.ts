@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ButtonsWrap = styled.div`
-  margin-top: 30px;
+  margin: 30px 0;
   display: flex;
   justify-content: space-evenly;
 `;
