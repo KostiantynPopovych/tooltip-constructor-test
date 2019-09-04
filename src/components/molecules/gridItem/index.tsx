@@ -4,7 +4,7 @@ import Button from "components/atoms/button";
 import { IImage } from "types/entities";
 
 import { Overlay } from "styles/shared";
-import { Wrap, ButtonsWrap } from "./styles";
+import { Wrap, ButtonsWrap, ButtonWrap } from "./styles";
 
 interface IProps {
   onShowDetailsClick: (img: IImage) => void;
@@ -27,14 +27,18 @@ const GridItem: FC<IProps> = ({
       {showOverlay && (
         <Overlay>
           <ButtonsWrap>
-            <Button
-              onClick={() => onShowDetailsClick({ ...rest, source, altText })}
-              label={"Show details"}
-            />
-            <Button
-              onClick={() => onRemoveClick(rest.id!)}
-              label={"Remove image"}
-            />
+            <ButtonWrap>
+              <Button
+                onClick={() => onShowDetailsClick({ ...rest, source, altText })}
+                label={"Show details"}
+              />
+            </ButtonWrap>
+            <ButtonWrap>
+              <Button
+                onClick={() => onRemoveClick(rest.id!)}
+                label={"Remove image"}
+              />
+            </ButtonWrap>
           </ButtonsWrap>
         </Overlay>
       )}

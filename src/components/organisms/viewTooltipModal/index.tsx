@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import Image from "components/atoms/image";
 import Modal from "components/molecules/modal";
 import Button from "components/atoms/button";
@@ -9,14 +9,12 @@ import { RelativeWrap } from "styles/shared";
 import { EditWrap } from "./styles";
 
 interface IProps {
-  isOpen: boolean;
   onClose: () => void;
   onEditClick: (img: IImage) => void;
   img: IImage;
 }
 
 const ViewTooltipModal: FC<IProps> = ({
-  isOpen,
   onClose,
   onEditClick,
   img: {
@@ -37,7 +35,7 @@ const ViewTooltipModal: FC<IProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal onClose={onClose}>
       <RelativeWrap
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import Button from "components/atoms/button";
 
-import { Shadow } from "styles/shared";
 import { Wrap } from "./styles";
 
 interface IProps {
