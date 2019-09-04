@@ -6,7 +6,7 @@ import Draggable from "components/molecules/draggable";
 import { IImage } from "types/entities";
 
 import { RelativeWrap } from "styles/shared";
-import { EditWrap } from "./styles";
+import { ButtonsWrap } from "./styles";
 
 interface IProps {
   onClose: () => void;
@@ -35,7 +35,7 @@ const ViewTooltipModal: FC<IProps> = ({
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal withMobileScale>
       <RelativeWrap
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -48,7 +48,8 @@ const ViewTooltipModal: FC<IProps> = ({
             tooltipText={text}
           />
         )}
-        <EditWrap>
+        <ButtonsWrap>
+          <Button label={"Close"} onClick={onClose} />
           <Button
             label={"Edit"}
             onClick={() =>
@@ -64,7 +65,7 @@ const ViewTooltipModal: FC<IProps> = ({
               })
             }
           />
-        </EditWrap>
+        </ButtonsWrap>
       </RelativeWrap>
     </Modal>
   );

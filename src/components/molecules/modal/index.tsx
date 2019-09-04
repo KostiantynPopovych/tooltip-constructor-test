@@ -1,35 +1,18 @@
 import React, { FC } from "react";
 import { createPortal } from "react-dom";
-import Button from "components/atoms/button";
 import { Overlay } from "styles/shared";
 
-import { CloseBtn, ContentWrap, Content, BottomBtnWrap } from "./styles";
+import { ContentWrap } from "./styles";
 
 interface IProps {
-  onClose: () => void;
-  onBottomBtnClick?: () => void;
-  bottomBtnLabel?: string;
+  withMobileScale?: boolean;
 }
-
 const modalRoot = document.getElementById("modal-root");
 
-const Modal: FC<IProps> = ({
-  children,
-  onClose,
-  onBottomBtnClick,
-  bottomBtnLabel
-}) =>
+const Modal: FC<IProps> = ({ children, withMobileScale }) =>
   createPortal(
     <Overlay>
-      <ContentWrap>
-        <CloseBtn onClick={onClose}>x</CloseBtn>
-        <Content>{children}</Content>
-        {bottomBtnLabel && (
-          <BottomBtnWrap>
-            <Button onClick={onBottomBtnClick} label={bottomBtnLabel} />
-          </BottomBtnWrap>
-        )}
-      </ContentWrap>
+      <ContentWrap withMobileScale={withMobileScale}>{children}</ContentWrap>
     </Overlay>,
     modalRoot || document.body
   );

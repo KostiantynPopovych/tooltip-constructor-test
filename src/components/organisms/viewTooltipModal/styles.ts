@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const EditWrap = styled.div`
+export const ButtonsWrap = styled.div`
   margin-top: 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 `;

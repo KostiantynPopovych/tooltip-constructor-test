@@ -30,6 +30,7 @@ interface IProps {
 
   onChangeImage?: (ev: SyntheticEvent) => void;
   onSaveClick: (img: IImage) => void;
+  onCloseClick: () => void;
 }
 
 const TooltipConstructor: FC<IProps> = ({
@@ -40,7 +41,8 @@ const TooltipConstructor: FC<IProps> = ({
     tooltip: { text, backgroundColor, position }
   },
   onChangeImage,
-  onSaveClick
+  onSaveClick,
+  onCloseClick
 }) => {
   const [tooltipText, setTooltipText] = useState("");
   const [tooltipBackgroundColor, setTooltipBackgroundColor] = useState(
@@ -101,6 +103,7 @@ const TooltipConstructor: FC<IProps> = ({
           />
         </WithMargin>
         <ButtonsWrap>
+          <Button onClick={onCloseClick} label={"Close"} />
           <FileInput
             onChange={onChangeImage}
             fileTypes={"image/*"}

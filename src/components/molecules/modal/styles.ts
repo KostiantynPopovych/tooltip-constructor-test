@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { COLORS } from "styles/variables";
+import styled, { css } from "styled-components";
+import { COLORS, DEVICE } from "styles/variables";
 
 export const CloseBtn = styled.button`
   position: absolute;
@@ -10,17 +10,23 @@ export const CloseBtn = styled.button`
   font-weight: bold;
 `;
 
+interface IContentWrap {
+  withMobileScale?: boolean;
+}
+
 export const ContentWrap = styled.div`
   position: relative;
   padding: 50px;
   background-color: ${COLORS.liteWhite};
   border-radius: 20px;
-`;
-
-export const BottomBtnWrap = styled.div`
-  position: absolute;
-  bottom: -70px;
-  right: 0;
+  transform: scale(0.6);
+  ${({ withMobileScale }: IContentWrap) =>
+    withMobileScale &&
+    css`
+      @media ${DEVICE.tablet} {
+        transform: scale(1);
+      }
+    `}
 `;
 
 export const Content = styled.div``;

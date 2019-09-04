@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import ErrorText from "components/atoms/errorText";
 import GridItem from "components/molecules/gridItem";
 import Header from "components/molecules/header";
+import Button from "components/atoms/button";
 import Modal from "components/molecules/modal";
 import ViewTooltipModal from "components/organisms/viewTooltipModal";
 import TooltipConstructor from "components/organisms/tooltipConstructor";
@@ -9,7 +10,13 @@ import FileInput from "components/molecules/fileInput";
 
 import { IImage } from "types/entities";
 
-import { Content, ImagesWrap, ImageWrap } from "./styles";
+import {
+  Content,
+  ImagesWrap,
+  ImageWrap,
+  UploadWrap,
+  WithMargin
+} from "./styles";
 
 interface IProps {
   images: Array<IImage>;
@@ -115,23 +122,33 @@ const GridPage: FC<IProps> = ({
         </ImagesWrap>
       </Content>
       {showEditModal && (
-        <Modal onClose={handleEditModalClose}>
+        <Modal>
           <>
             {!currentImg && (
-              <>
-                <FileInput
-                  onChange={handleImgUpload}
-                  fileTypes={"image/*"}
-                  label={"Upload your image"}
-                />
-                {errorFileFormat && <ErrorText>Wrong file type...</ErrorText>}
-              </>
+              <UploadWrap>
+                <WithMargin>
+                  <FileInput
+                    onChange={handleImgUpload}
+                    fileTypes={"image/*"}
+                    label={"Upload your image"}
+                  />
+                </WithMargin>
+                {errorFileFormat && (
+                  <WithMargin>
+                    <ErrorText>Wrong file type...</ErrorText>
+                  </WithMargin>
+                )}
+                <WithMargin>
+                  <Button onClick={handleEditModalClose} label={"Close"} />
+                </WithMargin>
+              </UploadWrap>
             )}
             {currentImg && (
               <TooltipConstructor
                 img={currentImg}
                 onChangeImage={handleImgUpload}
                 onSaveClick={handleSaveClick}
+                onCloseClick={handleEditModalClose}
               />
             )}
           </>

@@ -14,3 +14,14 @@ export const ImageWrap = styled.div`
   margin: 20px;
   background-color: ${COLORS.pinkLite};
 `;
+
+export const WithMargin = styled.div`
+  margin: 20px 0;
+`;
+
+export const UploadWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+`;
