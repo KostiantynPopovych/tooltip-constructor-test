@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+.rc-color-picker-wrap {
+  display: flex !important;
+}
+
 input {
   outline: none;
   border: none;

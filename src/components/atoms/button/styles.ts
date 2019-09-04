@@ -6,6 +6,8 @@ interface IButtonProps {
 }
 
 export const ButtonInternal = styled.button`
+  display: flex;
+  justify-content: center;
   ${({ withBackground }: IButtonProps) =>
     withBackground &&
     css`

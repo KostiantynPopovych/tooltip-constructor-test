@@ -1,8 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import ErrorText from "components/atoms/errorText";
 import GridItem from "components/molecules/gridItem";
 import Header from "components/molecules/header";
 import Modal from "components/molecules/modal";
+import ViewTooltipModal from "components/organisms/viewTooltipModal";
 import TooltipConstructor from "components/organisms/tooltipConstructor";
 import FileInput from "components/molecules/fileInput";
 
@@ -10,42 +11,56 @@ import { IImage } from "types/entities";
 
 import { Wrap, Content, ImagesWrap } from "./styles";
 
-interface IProps {}
-const IMGs = [
-  {
-    id: "1",
-    altText: "first img",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png"
-  },
-  {
-    id: "2",
-    altText: "second img",
-    url: "http://qnimate.com/wp-content/uploads/2014/03/images2.jpg",
-    tooltip: {
-      text: "some not very long text",
-      position: "right",
-      backgroundColor: "#333"
-    }
-  }
-];
+interface IProps {
+  images: Array<IImage>;
+  isLoading: boolean;
+  requestSetImage: (img: IImage) => void;
+  requestRemoveImage: (id: string) => void;
+  requestGetImages: () => void;
+}
 
-const GridPage: FC<IProps> = ({}) => {
+const GridPage: FC<IProps> = ({
+  requestSetImage,
+  requestGetImages,
+  requestRemoveImage,
+  images,
+  isLoading
+}) => {
+  const [showViewModal, setShowViewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [currentImg, setCurrentImg] = useState<IImage>();
   const [imgName, setImgName] = useState("");
   const [imgBase, setImgBase] = useState("");
   const [errorFileFormat, setErrorFileFormat] = useState(false);
 
-  const handleImageClick = (img: IImage) => {
-    console.log(img);
+  useEffect(() => {
+    requestGetImages();
+  }, []);
+
+  const handleDetailsClick = (img: IImage) => {
+    setCurrentImg(img);
+    setShowViewModal(true);
   };
 
   const handleCreateClick = () => {
     setShowEditModal(true);
   };
 
-  const handleModalClose = () => {
+  const handleEditModalClose = () => {
+    resetValues();
     setShowEditModal(false);
+  };
+
+  const resetValues = () => {
+    setImgName("");
+    setImgBase("");
+    setErrorFileFormat(false);
+    setCurrentImg(undefined);
+  };
+
+  const handleViewModalClose = () => {
+    resetValues();
+    setShowViewModal(false);
   };
 
   const handleImgUpload = ({ target: { files } }: any) => {
@@ -55,13 +70,35 @@ const GridPage: FC<IProps> = ({}) => {
     const fileReader: FileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = () => {
+      if (currentImg) {
+        setErrorFileFormat(false);
+        setCurrentImg({
+          ...currentImg,
+          altText: file.name,
+          source: String(fileReader.result)
+        });
+        return;
+      }
       setImgName(file.name);
       setImgBase(String(fileReader.result));
-      setErrorFileFormat(false);
     };
   };
 
-  const showConstructor = imgBase && imgName;
+  const handleSaveClick = (img: IImage) => {
+    requestSetImage(img);
+    setShowEditModal(false);
+  };
+
+  const handleEditClick = (img: IImage) => {
+    setShowViewModal(false);
+    setShowEditModal(true);
+  };
+
+  const handleRemoveClick = (id: string) => {
+    requestRemoveImage(id);
+  };
+
+  const showConstructor = currentImg || (imgBase && imgName);
 
   return (
     <>
@@ -69,10 +106,11 @@ const GridPage: FC<IProps> = ({}) => {
         <Header onCreateClick={handleCreateClick} />
         <Content>
           <ImagesWrap>
-            {!!IMGs.length &&
-              IMGs.map(image => (
+            {!!images.length &&
+              images.map(image => (
                 <GridItem
-                  onClick={handleImageClick}
+                  onShowDetailsClick={handleDetailsClick}
+                  onRemoveClick={handleRemoveClick}
                   img={image}
                   key={image.id}
                 />
@@ -80,7 +118,7 @@ const GridPage: FC<IProps> = ({}) => {
           </ImagesWrap>
         </Content>
       </Wrap>
-      <Modal isOpen={showEditModal} onClose={handleModalClose}>
+      <Modal isOpen={showEditModal} onClose={handleEditModalClose}>
         <>
           {!showConstructor && (
             <>
@@ -94,13 +132,33 @@ const GridPage: FC<IProps> = ({}) => {
           )}
           {showConstructor && (
             <TooltipConstructor
-              source={imgBase}
-              imgName={imgName}
+              img={
+                currentImg
+                  ? currentImg
+                  : {
+                      altText: imgName,
+                      source: imgBase,
+                      tooltip: {
+                        text: "",
+                        position: { x: 0, y: 0 },
+                        backgroundColor: "rgba(0,0,0,0)"
+                      }
+                    }
+              }
               onChangeImage={handleImgUpload}
+              onSaveClick={handleSaveClick}
             />
           )}
         </>
       </Modal>
+      {showViewModal && currentImg && (
+        <ViewTooltipModal
+          isOpen={showViewModal}
+          onClose={handleViewModalClose}
+          img={currentImg}
+          onEditClick={handleEditClick}
+        />
+      )}
     </>
   );
 };

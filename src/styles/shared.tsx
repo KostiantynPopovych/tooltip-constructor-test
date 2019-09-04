@@ -16,3 +16,7 @@ export const Overlay = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const RelativeWrap = styled.div`
+  position: relative;
+`;

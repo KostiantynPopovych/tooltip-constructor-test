@@ -1,12 +1,17 @@
+interface IPosition {
+  x: number;
+  y: number;
+}
+
 interface ITooltip {
   text: string;
-  position: string;
+  position: IPosition;
   backgroundColor: string;
 }
 
 export interface IImage {
-  id: string;
-  url: string;
+  id?: string;
+  source: string;
   altText: string;
-  tooltip?: ITooltip;
+  tooltip: ITooltip;
 }

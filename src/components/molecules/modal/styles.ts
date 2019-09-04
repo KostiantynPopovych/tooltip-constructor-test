@@ -17,4 +17,10 @@ export const ContentWrap = styled.div`
   border-radius: 20px;
 `;
 
+export const BottomBtnWrap = styled.div`
+  position: absolute;
+  bottom: -70px;
+  right: 0;
+`;
+
 export const Content = styled.div``;

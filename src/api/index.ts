@@ -4,7 +4,7 @@ class Storage {
 
   _read = (key: string) => {
     const item = localStorage.getItem(key);
-    return !!item ? JSON.parse(item) : null;
+    return !!item ? JSON.parse(item) : [];
   };
 
   get = (key: string) => this._read(key);
@@ -14,7 +14,7 @@ class Storage {
 
   put = (key: string, item: any) => {
     let elements = this.get(key);
-    if (elements) {
+    if (!!elements) {
       this._write(key, elements.concat(item));
     } else {
       this._write(key, item);
@@ -24,19 +24,19 @@ class Storage {
   set = (
     key: string,
     id: number | string,
-    elementKey: string,
+    // elementKey: string,
     elementValue: any
   ) => {
     const elements = this.get(key);
     const element = elements.find((e: any) => e.id === id);
     const idx = elements.indexOf(element);
-    elements[idx][elementKey] = elementValue;
+    elements[idx] = elementValue;
     this._write(key, elements);
   };
 
-  delete = (key: string, item: any) => {
+  delete = (key: string, elementId: string) => {
     const elements = this.get(key);
-    const element = elements.find((e: any) => e.id === item.id);
+    const element = elements.find((e: any) => e.id === elementId);
     const idx = elements.indexOf(element);
     elements.splice(idx, 1);
     this._write(key, elements);
