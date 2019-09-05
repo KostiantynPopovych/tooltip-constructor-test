@@ -65,7 +65,6 @@ const GridPage: FC<IProps> = ({
       });
       if (fromCreate) {
         setShowEditModal(true);
-        setShowUploadModal(false);
       }
     };
   };

@@ -5,7 +5,11 @@ import {
   IRequestGetImages,
   IRequestRemoveImage
 } from "store/actions/images";
-import { SET_IMAGE, GET_IMAGES, REMOVE_IMAGE } from "store/actionTypes/images";
+import {
+  SET_IMAGE_START,
+  GET_IMAGES_START,
+  REMOVE_IMAGE_START
+} from "store/actionTypes/images";
 import {
   setImagePending,
   setImageSuccess,
@@ -59,7 +63,7 @@ function* removeImageAsync({ type, payload }: IRequestRemoveImage) {
 }
 
 export default function* watchSaga() {
-  yield takeEvery(SET_IMAGE.START, setImageAsync);
-  yield takeEvery(GET_IMAGES.START, getImagesAsync);
-  yield takeEvery(REMOVE_IMAGE.START, removeImageAsync);
+  yield takeEvery(SET_IMAGE_START, setImageAsync);
+  yield takeEvery(GET_IMAGES_START, getImagesAsync);
+  yield takeEvery(REMOVE_IMAGE_START, removeImageAsync);
 }

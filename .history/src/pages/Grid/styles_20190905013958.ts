@@ -20,7 +20,6 @@ export const WithMargin = styled.div`
 `;
 
 export const UploadWrap = styled.div`
-  padding: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
