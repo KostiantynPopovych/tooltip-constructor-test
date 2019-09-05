@@ -10,19 +10,10 @@ interface IProps {
 }
 const modalRoot = document.getElementById("modal-root");
 
-const Modal: FC<IProps> = ({
-  children,
-  withMobileScale,
-  withSmallMobileScale
-}) =>
+const Modal: FC<IProps> = ({ children, withMobileScale }) =>
   createPortal(
     <Overlay>
-      <ContentWrap
-        withSmallMobileScale={withSmallMobileScale}
-        withMobileScale={withMobileScale}
-      >
-        {children}
-      </ContentWrap>
+      <ContentWrap withMobileScale={withMobileScale}>{children}</ContentWrap>
     </Overlay>,
     modalRoot || document.body
   );

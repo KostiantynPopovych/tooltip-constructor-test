@@ -132,7 +132,7 @@ const GridPage: FC<IProps> = ({
         </ImagesWrap>
       </Content>
       {showUploadModal && (
-        <Modal withSmallMobileScale>
+        <Modal withMobileScale>
           <UploadWrap>
             <WithMargin>
               <FileInput

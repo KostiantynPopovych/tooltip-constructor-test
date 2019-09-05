@@ -12,7 +12,6 @@ export const CloseBtn = styled.button`
 
 interface IContentWrap {
   withMobileScale?: boolean;
-  withSmallMobileScale?: boolean;
 }
 
 export const ContentWrap = styled.div`
@@ -24,13 +23,6 @@ export const ContentWrap = styled.div`
     css`
       @media ${DEVICE.mobileL} {
         transform: scale(0.6);
-      }
-    `}
-  ${({ withSmallMobileScale }: IContentWrap) =>
-    withSmallMobileScale &&
-    css`
-      @media ${DEVICE.mobileL} {
-        transform: scale(0.8);
       }
     `}
 `;

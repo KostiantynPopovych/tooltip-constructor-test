@@ -17,12 +17,7 @@ const Modal: FC<IProps> = ({
 }) =>
   createPortal(
     <Overlay>
-      <ContentWrap
-        withSmallMobileScale={withSmallMobileScale}
-        withMobileScale={withMobileScale}
-      >
-        {children}
-      </ContentWrap>
+      <ContentWrap withMobileScale={withMobileScale}>{children}</ContentWrap>
     </Overlay>,
     modalRoot || document.body
   );
